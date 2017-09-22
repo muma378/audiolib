@@ -1,0 +1,45 @@
+// BaseWave::open - instead of seeking 'd' in the following bytes, it parses chunks one by one
+
+def open(filename):
+    open filename as f:
+        read 36 bytes from f to wave_header
+        shift wave_header.length - 16 from current file_pos
+        init riff_chunk with 0
+        while riff_chunk.ck_id != 'data':
+            shift riff_chunk.ck_size from current file_pos
+            read 8 bytes from f to riff_chunk
+        char data  = new char[riff_chunk.ck_size];
+        riff_chunk.data = data
+        
+
+
+def balanced_truncate(max_duration, wav_vec, min_duration=0, window=0.5, threshold=200.0, offset=0.1):
+    if max_duration > this->duration:
+        wav_vec.push_back(this)
+    else:
+        ideal = equi_truncate(max_duration, min_duration)
+        clip_ending = ideal.pop()
+        clip_begining = 0
+        while clip_ending < this->duration:
+            ending_offset = 0
+            while true:
+                if get_samples_avg(w_begin, window) < threshold:
+                    set clip_ending
+                    break;
+                if get_samples_avg(w_end-window, window) < threshold:
+                    set clip_ending
+                    break;
+                w_begin -= offset;
+                w_end += offset;
+            extract(clip_begining, clip_ending)
+            clip_begining = clip_ending
+            clip_ending = ideal.pop()
+
+
+def sketch:
+    for pos = start;pos < end;pos+=step
+        while true:
+
+            if get_samples_avg(pos, window) < threshold:
+
+1. discretize

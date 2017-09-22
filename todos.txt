@@ -1,0 +1,5 @@
+1. wraps exceptions x
+2. wraps templates in common.cpp x
+3. build setup.py x
+4. compile it on windows
+5. a robust "open" method x
